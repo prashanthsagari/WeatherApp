@@ -1,0 +1,28 @@
+Kafka:
+******
+A message or data record in kafka called as event. 
+kafka guarantees, to process events exactly-once.
+Events are organized and durably stored in topics
+
+Topic is like a folder.
+Event is like a file.
+
+Toipcs in kafka are always multi-producer and multi-subscriber.
+Events dont delete after consumtion. We define how long kafka should retain events per-topic configuration setting.
+
+USING DOCKER:
+*************
+docker run -p 9092:9092 apache/kafka:3.7.0
+login in to docker : 
+i.  docker container ls  --> get container id or name
+ii. docker exec -it 5be4ba096c8a /bin/bash
+goto: /opt/kafka/bin
+
+1. Create topic 
+ ./kafka-topics.sh --bootstrap-server localhost:9092 --topic kafka-data-folder-with-events --create --partitions 3 --replication-factor 1
+
+2. Produce data 
+./kafka-console-producer.sh --topic kafka-data-folder-with-events --bootstrap-server localhost:9092
+
+3. Consumer 
+./kafka-console-consumer.sh --topic kafka-data-folder-with-events --from-beginning --bootstrap-server localhost:9092
