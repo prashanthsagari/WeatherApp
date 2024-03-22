@@ -5,6 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @FeignClient(name = "service-discovery")
 public interface FeignClientService {
-	@GetMapping("/call-service-discovery")
+	@GetMapping("/discovery/call-service-discovery")
 	public String abcd();
 }

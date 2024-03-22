@@ -3,6 +3,7 @@ package com.weather.app;
 import java.util.List;
 import java.util.function.Predicate;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.HttpStatus;
@@ -22,13 +23,23 @@ import reactor.core.publisher.Mono;
 @Component
 public class JwtAuthenticationFilter implements GatewayFilter {
 
+	@Value("${app.jwtSecret}")
+	private String secret;
+
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		ServerHttpRequest request = (ServerHttpRequest) exchange.getRequest();
 		ServerHttpResponse response = (ServerHttpResponse) exchange.getResponse();
 
 		// whitelist urls
-		final List<String> apiEndpoints = List.of("/login", "/ping", "/create-user");
+		final List<String> apiEndpoints = List.of("/user-profile/login", 
+				 "/user-profile/ping", 
+				 "/user-profile/create-user",
+				 "/weather/test",
+				 "/gateway-actuators/**",
+				 "/user-actuators/**",
+				 "/discovery-actuators/**",
+				 "/weather-actuators/**");
 
 		Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
 				.noneMatch(uri -> r.getURI().getPath().contains(uri));
@@ -44,11 +55,9 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 					throw new NoTokenException("Missing or invalid Authorization header");
 				}
 				final String token = authHeader.substring(7);
-				final Claims claims = Jwts.parser().setSigningKey("mysecretkeyjusttocreatejwttokenHnKagaintestingoKOK")
-						.build().parseSignedClaims(token).getBody();
+				final Claims claims = Jwts.parser().setSigningKey(secret).build().parseSignedClaims(token).getBody();
 				String username = claims.get("username", String.class);
-				boolean result = Jwts.parser().setSigningKey("mysecretkeyjusttocreatejwttokenHnKagaintestingoKOK")
-						.build().isSigned(token);
+				boolean result = Jwts.parser().setSigningKey(secret).build().isSigned(token);
 				chain.filter(exchange);
 			} catch (JwtException e) {
 				throw new JWTTokenException("Invalid token");
