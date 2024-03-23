@@ -1,4 +1,4 @@
-package com.weather.app;
+package com.weather.app.config;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -32,9 +32,10 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 		ServerHttpResponse response = (ServerHttpResponse) exchange.getResponse();
 
 		// whitelist urls
+		// Todo can be database driven
 		final List<String> apiEndpoints = List.of("/user-profile/login", 
 				 "/user-profile/ping", 
-				 "/user-profile/create-user",
+				 "/user-profile/upsert-userr",
 				 "/weather/test",
 				 "/gateway-actuators/**",
 				 "/user-actuators/**",

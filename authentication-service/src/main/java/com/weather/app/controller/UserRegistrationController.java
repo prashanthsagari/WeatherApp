@@ -1,9 +1,13 @@
 package com.weather.app.controller;
 
+import java.util.List;
+
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,20 +30,38 @@ public class UserRegistrationController {
 	@Autowired 
 	FeignClientService feignClientService; 
 	
-	@PostMapping("/create-user")
+	@PostMapping("/upsert-user")
 	public ResponseEntity<?> registerUser(@RequestBody  @Schema(example = "{\"username\": \"adsf\", \"email\": \"asdf\", \"password\" : \"dfs\"}") Document userDetails) {
-		return new ResponseEntity<Document>(userService.registerUser(userDetails), HttpStatus.CREATED);
+		return new ResponseEntity<Document>(userService.registerUserUpsert(userDetails), HttpStatus.CREATED);
 	}
+	
+	@DeleteMapping("/delete-user/{username}")
+	public ResponseEntity<?> deleteUser(@PathVariable("username") String userName) {
+		return new ResponseEntity<Boolean>(userService.deleteUser(userName), HttpStatus.OK);
+	}
+	
+	@GetMapping("/user/{username}")
+	public ResponseEntity<?> getUser(@PathVariable("username") String userName) {
+		return new ResponseEntity<Document>(userService.getUser(userName), HttpStatus.OK);
+	}
+	
+	@GetMapping("/users")
+	public ResponseEntity<?> users() {
+		return new ResponseEntity<List<Document>>(userService.getAllUsers(), HttpStatus.OK);
+	}
+
 
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody @Schema(example = "{\"username\": \"adsf\", \"email\": \"asdf\", \"password\" : \"dfs\"}") Document userDetails) {
 		return new ResponseEntity<Document>(userService.login(userDetails), HttpStatus.OK);
 	}
 
-	@GetMapping("/api/activate-user/{username}")
-	public ResponseEntity<?> enableUser(@PathVariable("username") @Schema(example = "username") String username) {
-		return new ResponseEntity<String>(userService.activateUser(username), HttpStatus.OK);
+	@GetMapping("/activate-deactivate-user/{username}")
+	public ResponseEntity<?> enableUser(@PathVariable("username") @Schema(example = "username") String username,
+			@PathVariable("username") @Schema(example = "status") String status) {
+		return new ResponseEntity<String>(userService.actOrDeactUser(username, status), HttpStatus.OK);
 	}
+	
 	
 	@GetMapping("/ping")
 	public ResponseEntity<?> ping() {

@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-@ComponentScan(basePackages = {"com.weather"})
+//@ComponentScan(basePackages = {"com.weather.**"})
 public class AuthenticationServiceApplication {
 
 	public static void main(String[] args) {

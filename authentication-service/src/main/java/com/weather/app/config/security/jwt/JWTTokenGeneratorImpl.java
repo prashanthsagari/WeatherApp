@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import com.weather.app.model.ERole;

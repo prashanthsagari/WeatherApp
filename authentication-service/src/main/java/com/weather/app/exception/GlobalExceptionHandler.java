@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-@ControllerAdvice
+//@ControllerAdvice
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(InactiveUserException.class)
@@ -46,9 +46,15 @@ public class GlobalExceptionHandler {
 	}
 	
 	@ExceptionHandler(NoTokenException.class)
-    public ResponseEntity<Object> handleGlobalException(Exception ex) {
-        // Handle the exception and return an appropriate response
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+    public ResponseEntity<Object> handleGlobalException(NoTokenException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token is not available.");
+    }
+	
+	@ExceptionHandler(UserAuthenticationException.class)
+    public ResponseEntity<ErrorMessage> apiGateWayOnlyAllowed(UserAuthenticationException ex) {
+		ErrorMessage message = ErrorMessage.builder().statusCode(HttpStatus.UNAUTHORIZED.value()).message(ex.getMessage())
+				.description("Global exception catch").build();
+		return new ResponseEntity<ErrorMessage>(message, HttpStatus.UNAUTHORIZED);
     }
 
 }
