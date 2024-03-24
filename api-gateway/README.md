@@ -7,6 +7,9 @@ Currently it registered with below services
 1. service-discovery  -- responsible to locate services by service name instead of hardcoded url
 2. authentication-service -- User Registration, User Management, JWT token generation service
 3. weather-service -- Secured  Weather details api
+
+# docker run -e "SPRING_PROFILES_ACTIVE=docker" your-image
+docker run  -e SPRING_PROFILES_ACTIVE=docker  -p 9090:9090 --name api9090 sagariprashanth/api-gateway:2.0
  
 # docker build -t username/service_name:tag .
 docker build -t sagariprashanth/api-gateway:1.0 .

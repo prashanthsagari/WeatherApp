@@ -1,3 +1,17 @@
 Sample API: api.openweathermap.org/data/2.5/weather?id={city id}&appid={API key}
 
 https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=2bdff9078622788a87bb6abae03afae3
+
+# docker build -t username/service_name:tag .
+docker build -t sagariprashanth/weather-service:1.0 .
+# docker login 
+docker login
+# docker push username/image_name:1.0
+docker push sagariprashanth/weather-service:1.0
+
+# docker pull image_name
+docker pull weather-service:1.0
+
+# docker run 
+## docker run -d -p host_port:container_port --name container_name image_name:tag
+docker run -d -p 8761:8761 --name s-d-8761 sagariprashanth/weather-service:1.0

@@ -23,6 +23,17 @@ public class GatewayConfig {
 								.uri("lb://authentication-service"))
 				.route("weather-service",
 						r -> r.path("/weather/**").filters(f -> f.filter(filter)).uri("lb://weather-service"))
+				
+				.route("service-discovery_swagger_ui",
+						r -> r.path("/service-discovery/swagger-ui/**")
+								.uri("lb://service-discovery/service-discovery/swagger-ui"))
+				.route("authentication-service_swagger_ui",
+						r -> r.path("/authentication-service/swagger-ui/**")
+								.uri("lb://authentication-service/authentication-service/swagger-ui"))
+				.route("weather-service_swagger_ui",
+						r -> r.path("/weather-service/swagger-ui/**")
+								.uri("lb://weather-service/weather-service/swagger-ui"))
+
 				.build();
 	}
 }

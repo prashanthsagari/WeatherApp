@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    networks:
+      - my-network
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ""
+      MONGO_INITDB_ROOT_PASSWORD: ""
+
+  api-gateway:
+    image: sagariprashanth/api-gateway:2.0
+    container_name: api-gateway
+    networks:
+      - my-network
+    ports:
+      - "9090:9090"
+    environment:
+      - SPRING_PROFILES_ACTIVE = docker
+    depends_on:
+      - service-discovery
+      
+  service-discovery:
+    image: sagariprashanth/service-discovery:2.0
+    container_name: service-discovery
+    networks:
+      - my-network
+    ports:
+      - "8761:8761"
+      
+  weather-service:
+    image: sagariprashanth/weather-service:2.0
+    container_name: weather-service
+    networks:
+      - my-network
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE = docker
+    depends_on:
+      - service-discovery
+      - api-gateway
+        
+  authentication-service:
+    image: sagariprashanth/authentication-service:2.0
+    container_name: authentication-service
+    networks:
+      - my-network
+    ports:
+      - "7071:7071"
+    depends_on:
+      - mongodb
+      - service-discovery
+      - api-gateway
+    environment:
+      - SPRING_PROFILES_ACTIVE = docker
+
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:

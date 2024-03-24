@@ -16,5 +16,4 @@ docker pull service-discovery:1.0
 
 # docker run 
 ## docker run -d -p host_port:container_port --name container_name image_name:tag
-docker run -d -p 8761:8080 --name service-discovery sagariprashanth/service-discovery
 docker run -d -p 8761:8761 --name s-d-8761 sagariprashanth/service-discovery:1.0

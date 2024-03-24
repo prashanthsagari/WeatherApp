@@ -33,14 +33,10 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 
 		// whitelist urls
 		// Todo can be database driven
-		final List<String> apiEndpoints = List.of("/user-profile/login", 
-				 "/user-profile/ping", 
-				 "/user-profile/upsert-userr",
-				 "/weather/test",
-				 "/gateway-actuators/**",
-				 "/user-actuators/**",
-				 "/discovery-actuators/**",
-				 "/weather-actuators/**");
+		final List<String> apiEndpoints = List.of("/user-profile/login", "/user-profile/ping",
+				"/user-profile/upsert-user", "/weather/test", "/gateway-actuators/**", "/user-actuators/**",
+				"/discovery-actuators/**", "/weather-actuators/**"
+				);
 
 		Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
 				.noneMatch(uri -> r.getURI().getPath().contains(uri));
