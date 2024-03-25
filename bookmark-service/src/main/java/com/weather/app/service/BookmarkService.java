@@ -6,5 +6,9 @@ import org.bson.Document;
 
 public interface BookmarkService {
 
-	public List<Document> bookmark(String username, Document bookmarkDetails);
+	public Document upsertBookmark(String username, Document bookmarkDetails);
+	
+	public Document bookmarks(String username);
+	
+	public List<Document> getAllBookmarks();
 }
