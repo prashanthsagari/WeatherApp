@@ -16,4 +16,4 @@ docker build -t sagariprashanth/authentication-service:2.0 .
 docker push sagariprashanth/authentication-service:2.0
 
 docker build -t sagariprashanth/service-discovery:2.0 .
-docker push sagariprashanth/service-discovery:2.0 .
+docker push sagariprashanth/service-discovery:2.0 

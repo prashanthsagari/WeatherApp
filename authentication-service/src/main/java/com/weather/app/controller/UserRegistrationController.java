@@ -67,4 +67,10 @@ public class UserRegistrationController {
 	public ResponseEntity<?> ping() {
 		return new ResponseEntity<String>( " STATUS UP \n " + feignClientService.abcd(), HttpStatus.OK);
 	}
+	
+	// TO BE IMPLEMENTED
+	@PostMapping("/bookmark/{}")
+	public ResponseEntity<?> bookmark(@RequestBody  @Schema(example = "{\"username\": \"adsf\", \"email\": \"asdf\", \"password\" : \"dfs\"}") Document userDetails) {
+		return new ResponseEntity<Document>(userService.registerUserUpsert(userDetails), HttpStatus.CREATED);
+	}
 }

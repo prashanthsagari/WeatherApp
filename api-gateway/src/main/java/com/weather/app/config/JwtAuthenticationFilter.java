@@ -35,7 +35,8 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 		// Todo can be database driven
 		final List<String> apiEndpoints = List.of("/user-profile/login", "/user-profile/ping",
 				"/user-profile/upsert-user", "/weather/test", "/gateway-actuators/**", "/user-actuators/**",
-				"/discovery-actuators/**", "/weather-actuators/**"
+				"/discovery-actuators/**", "/weather-actuators/**",
+				"/bookmark/store", "/bookmark/ping"
 				);
 
 		Predicate<ServerHttpRequest> isApiSecured = r -> apiEndpoints.stream()
@@ -55,13 +56,15 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 				final Claims claims = Jwts.parser().setSigningKey(secret).build().parseSignedClaims(token).getBody();
 				String username = claims.get("username", String.class);
 				boolean result = Jwts.parser().setSigningKey(secret).build().isSigned(token);
+				exchange.getRequest().mutate().header("username", username).build();
 				chain.filter(exchange);
 			} catch (JwtException e) {
 				throw new JWTTokenException("Invalid token");
 			}
 
 		}
-
+		//testing purpose
+		exchange.getRequest().mutate().header("username", "Prashanth Sagari").build();
 		return chain.filter(exchange);
 	}
 

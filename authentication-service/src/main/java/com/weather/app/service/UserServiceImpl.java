@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Document login(Document userDocument) {
 		MongoCollection<Document> collection = mongoDbService.getMongoDatabaseCollection(mongoCollection);
-		Bson filterQuery = Filters.and(Filters.eq("username", userDocument.getString("username")),
+		Bson filterQuery = Filters.or(Filters.eq("username", userDocument.getString("username")),
 				Filters.eq("email", userDocument.getString("email")));
 		Document user = collection.find(filterQuery).first();
 		if (user != null) {

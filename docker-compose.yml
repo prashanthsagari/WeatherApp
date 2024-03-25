@@ -60,6 +60,20 @@ services:
       - api-gateway
     environment:
       - SPRING_PROFILES_ACTIVE = docker
+      
+  bookmark-service:
+    image: sagariprashanth/bookmark-service:2.0
+    container_name: bookmark-service
+    networks:
+      - my-network
+    ports:
+      - "8083:8083"
+    depends_on:
+      - mongodb
+      - service-discovery
+      - api-gateway
+    environment:
+      - SPRING_PROFILES_ACTIVE = docker
 
 
 networks:
