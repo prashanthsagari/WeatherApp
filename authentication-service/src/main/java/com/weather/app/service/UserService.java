@@ -8,6 +8,8 @@ public interface UserService {
 
 	public Document registerUserUpsert(Document userDocument);
 	
+	public String updateEmail(String userName, String email);
+	
 	public boolean deleteUser(String userName);
 	
 	public List<Document> getAllUsers();

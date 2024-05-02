@@ -61,6 +61,20 @@ public class UserServiceImpl implements UserService {
 		}
 		return userDocument;
 	}
+	
+	@Override
+	public String updateEmail(String userName, String email) {
+		MongoCollection<Document> collection = mongoDbService.getMongoDatabaseCollection(mongoCollection);
+		Bson filterQuery = Filters.and(Filters.eq("username", userName));
+		Document user = collection.find(filterQuery).first();
+		if (user != null) {
+			Bson update = Updates.set("email", email);
+			UpdateOptions options = new UpdateOptions().upsert(true);
+			collection.updateOne(filterQuery, update, options);
+			return "Successfully Updated.";
+		}
+		return "Failed to update";
+	}
 
 	@Override
 	public Document login(Document userDocument) {
