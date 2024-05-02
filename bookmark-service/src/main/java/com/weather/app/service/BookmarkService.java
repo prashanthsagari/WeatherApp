@@ -10,5 +10,7 @@ public interface BookmarkService {
 	
 	public Document bookmarks(String username);
 	
+	public Document deleteBookMark(String username, String id);
+	
 	public List<Document> getAllBookmarks();
 }
