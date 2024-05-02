@@ -41,6 +41,8 @@ public class JWTTokenGeneratorImpl implements JWTTokenGenerator {
 		Document jwtTokenMap = new Document();
 		jwtTokenMap.put("token", jwtToken);
 		jwtTokenMap.put("message", message);
+		jwtTokenMap.put("username", user.getString("username"));
+		jwtTokenMap.put("email", user.getString("email"));
 		return jwtTokenMap;
 	}
 	
