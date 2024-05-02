@@ -9,7 +9,6 @@ import org.bson.Document;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +23,6 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
 import com.weather.app.db.service.MongoDbService;
-import com.weather.app.resp.pojo.Favorite;
-import com.weather.app.resp.pojo.Favorites;
 import com.weather.app.service.BookmarkService;
 
 import io.jsonwebtoken.io.IOException;
