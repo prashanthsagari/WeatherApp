@@ -54,6 +54,12 @@ public class BookmarkController {
 	public ResponseEntity<?> deleteBookMark(@RequestParam String username,  @RequestParam String id) {
 		return new ResponseEntity<Document>(bookmarkService.deleteBookMark(username, id), HttpStatus.OK);
 	}
+	
+	
+	@DeleteMapping("/delete-user-bookmark")
+	public int deleteBookMarkByUserName(@RequestParam String username) {
+		return bookmarkService.deleteBookMarkByUserName(username);
+	}
 
 	@GetMapping("/ping")
 	public ResponseEntity<?> ping() {

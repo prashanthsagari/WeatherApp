@@ -78,6 +78,18 @@ public class BookmarkServiceImpl implements BookmarkService {
 		return null;
 	}
 
+	@Override
+	public int deleteBookMarkByUserName(String username) {
+		MongoCollection<Document> collection = mongoDbService.getMongoDatabaseCollection(mongoCollection);
+		Bson filterQuery = Filters.eq("username", username);
+		try {
+			collection.deleteOne(filterQuery);
+		} catch (Exception e) {
+			return 0;
+		}
+		return 1;
+	}
+
 //	public static void main(String[] args) {
 //		BookmarkServiceImpl impl = new BookmarkServiceImpl();
 //		impl.abc();
