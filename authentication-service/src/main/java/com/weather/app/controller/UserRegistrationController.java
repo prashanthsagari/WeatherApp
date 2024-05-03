@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.weather.app.FeignBookMarkServiceClient;
 import com.weather.app.FeignClientService;
 import com.weather.app.service.UserService;
 
@@ -33,6 +34,9 @@ public class UserRegistrationController {
 	@Autowired 
 	FeignClientService feignClientService; 
 	
+	@Autowired
+	FeignBookMarkServiceClient feignBookMarkServiceClient;
+	
 	@PostMapping("/upsert-user")
 	public ResponseEntity<?> registerUser(@RequestBody  @Schema(example = "{\"username\": \"adsf\", \"email\": \"asdf\", \"password\" : \"dfs\"}") Document userDetails) {
 		return new ResponseEntity<Document>(userService.registerUserUpsert(userDetails), HttpStatus.CREATED);
@@ -45,6 +49,7 @@ public class UserRegistrationController {
 	
 	@DeleteMapping("/delete-user/{username}")
 	public ResponseEntity<?> deleteUser(@PathVariable("username") String userName) {
+		feignBookMarkServiceClient.deleteBookMark(userName);
 		return new ResponseEntity<Boolean>(userService.deleteUser(userName), HttpStatus.OK);
 	}
 	
