@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.server.ServerWebExchange;
 
 import com.weather.app.exception.JWTTokenException;
@@ -21,6 +22,7 @@ import io.jsonwebtoken.Jwts;
 import reactor.core.publisher.Mono;
 
 @Component
+@CrossOrigin(origins = "*")
 public class JwtAuthenticationFilter implements GatewayFilter {
 
 	@Value("${app.jwtSecret}")
@@ -64,7 +66,7 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 
 		}
 		//testing purpose
-		exchange.getRequest().mutate().header("username", "Prashanth Sagari").build();
+//		exchange.getRequest().mutate().header("username", "Prashanth Sagari").build();
 		return chain.filter(exchange);
 	}
 
